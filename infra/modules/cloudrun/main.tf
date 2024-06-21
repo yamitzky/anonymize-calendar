@@ -3,11 +3,13 @@ resource "google_cloud_run_v2_service" "default" {
   location = var.region
   ingress  = "INGRESS_TRAFFIC_ALL"
 
-
   template {
     containers {
       # Cloud Buildでデプロイするため、placeholderを指定しておく
       image = "us-docker.pkg.dev/cloudrun/container/placeholder"
+      ports {
+        container_port = 8000
+      }
     }
   }
 

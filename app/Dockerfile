@@ -13,8 +13,8 @@ RUN /venv/bin/pip install --disable-pip-version-check -r /requirements.txt
 # Copy the virtualenv into a distroless image
 FROM gcr.io/distroless/python3-debian12
 ENV PYTHONBUFFERED 1
-ENV PORT 3000
 COPY --from=build-venv /venv /venv
 COPY . /app
 WORKDIR /app
+EXPOSE 8000
 ENTRYPOINT ["/venv/bin/fastapi", "run", "src/anonymize_calendar"]

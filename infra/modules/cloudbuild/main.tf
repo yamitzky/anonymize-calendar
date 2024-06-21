@@ -16,18 +16,14 @@ resource "google_cloudbuild_trigger" "main_branch_trigger" {
   include_build_logs = "INCLUDE_BUILD_LOGS_WITH_STATUS"
 
   build {
-    images = ["${var.registry_url}/app:$COMMIT_SHA"]
-
     step {
-      name = "gcr.io/cloud-builders/docker"
-      args = ["build", "-t", "${var.registry_url}/app:$COMMIT_SHA", "."]
-      dir  = "app"
-    }
-
-    step {
-      name = "gcr.io/cloud-builders/docker"
-      args = ["push", "${var.registry_url}/app:$COMMIT_SHA"]
-      dir  = "app"
+      name = "gcr.io/kaniko-project/executor:latest"
+      args = [
+        "--context=dir://app",
+        "--destination=${var.registry_url}/app:$COMMIT_SHA",
+        "--cache=true",
+        "--cache-ttl=24h"
+      ]
     }
 
     step {
@@ -44,10 +40,6 @@ resource "google_cloudbuild_trigger" "main_branch_trigger" {
         "--region",
         "us-central1",
       ]
-    }
-
-    artifacts {
-      images = ["${var.registry_url}/app:$COMMIT_SHA"]
     }
   }
 }

@@ -38,6 +38,5 @@ module "cloudrun" {
   source = "../modules/cloudrun"
 
   service_name = var.service_name
-  image        = module.cloudbuild.artifact_url
   region       = var.region
 }
