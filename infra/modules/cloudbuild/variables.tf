@@ -1,3 +1,13 @@
+variable "service_name" {
+  type        = string
+  description = "Name of the Cloud Run service"
+}
+
+variable "github_connection_id" {
+  type        = string
+  description = "GitHub connection ID in Cloud Build"
+}
+
 variable "github_owner" {
   type        = string
   description = "GitHub repository owner"
@@ -19,21 +29,10 @@ variable "project_id" {
   description = "Google Cloud project ID"
 }
 
-variable "github_app_installation_id" {
-  type        = number
-  description = "GitHub App installation ID"
-}
-
 variable "region" {
   type        = string
   description = "Cloud Run region"
 }
-
-variable "oauth_token_secret_name" {
-  type        = string
-  description = "The version of the OAuth token secret in Secret Manager"
-}
-
 
 variable "registry_url" {
   type        = string

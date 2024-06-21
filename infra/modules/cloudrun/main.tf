@@ -6,7 +6,8 @@ resource "google_cloud_run_v2_service" "default" {
 
   template {
     containers {
-      image = var.image
+      # Cloud Buildでデプロイするため、placeholderを指定しておく
+      image = "us-docker.pkg.dev/cloudrun/container/placeholder"
     }
   }
 

@@ -20,7 +20,30 @@ resource "google_cloudbuild_trigger" "main_branch_trigger" {
 
     step {
       name = "gcr.io/cloud-builders/docker"
-      args = ["build", "-t", "${var.registry_url}/app:$COMMIT_SHA", "./app"]
+      args = ["build", "-t", "${var.registry_url}/app:$COMMIT_SHA", "."]
+      dir  = "app"
+    }
+
+    step {
+      name = "gcr.io/cloud-builders/docker"
+      args = ["push", "${var.registry_url}/app:$COMMIT_SHA"]
+      dir  = "app"
+    }
+
+    step {
+      name       = "gcr.io/google.com/cloudsdktool/cloud-sdk:slim"
+      entrypoint = "gcloud"
+      args = [
+        "run",
+        "deploy",
+        "${var.service_name}",
+        "--platform",
+        "managed",
+        "--image",
+        "${var.registry_url}/app:$COMMIT_SHA",
+        "--region",
+        "us-central1",
+      ]
     }
 
     artifacts {
@@ -29,28 +52,9 @@ resource "google_cloudbuild_trigger" "main_branch_trigger" {
   }
 }
 
-data "google_iam_policy" "serviceagent_secretAccessor" {
-  binding {
-    role    = "roles/secretmanager.secretAccessor"
-    members = ["serviceAccount:${data.google_project.project.number}@cloudbuild.gserviceaccount.com"]
-  }
-}
-
-resource "google_cloudbuildv2_connection" "github_connection" {
-  name     = "github-connection"
-  location = var.region
-
-  github_config {
-    app_installation_id = var.github_app_installation_id
-    authorizer_credential {
-      oauth_token_secret_version = "projects/${var.project_id}/secrets/${var.oauth_token_secret_name}/versions/latest"
-    }
-  }
-}
-
 resource "google_cloudbuildv2_repository" "my_repository" {
   name              = var.github_repo
   location          = var.region
-  parent_connection = google_cloudbuildv2_connection.github_connection.id
+  parent_connection = var.github_connection_id
   remote_uri        = "https://github.com/${var.github_owner}/${var.github_repo}.git"
 }

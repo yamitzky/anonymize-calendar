@@ -31,13 +31,8 @@ variable "github_branch" {
   default     = "^main$"
 }
 
-variable "github_app_installation_id" {
-  description = "The GitHub App installation ID"
-  type        = number
-}
-
-variable "oauth_token_secret_name" {
-  description = "The version of the OAuth token secret in Secret Manager"
+variable "github_connection_id" {
+  description = "The ID of the GitHub connection in CloudBuild"
   type        = string
-  default     = "github-token"
+  default     = "github"
 }
