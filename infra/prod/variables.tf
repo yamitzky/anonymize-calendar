@@ -9,15 +9,10 @@ variable "region" {
   default     = "us-central1"
 }
 
-variable "cloud_run_service_name" {
-  description = "The name of the Cloud Run service"
+variable "service_name" {
+  description = "The name of the Cloud Run service and Artifact Registry repository"
   type        = string
   default     = "anonymize-calendar"
-}
-
-variable "cloud_run_image" {
-  description = "The Docker image to deploy to Cloud Run"
-  type        = string
 }
 
 variable "github_owner" {

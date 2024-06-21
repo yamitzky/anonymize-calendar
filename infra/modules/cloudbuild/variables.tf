@@ -33,3 +33,9 @@ variable "oauth_token_secret_name" {
   type        = string
   description = "The version of the OAuth token secret in Secret Manager"
 }
+
+
+variable "registry_url" {
+  type        = string
+  description = "Name of the Artifact Registry repository"
+}

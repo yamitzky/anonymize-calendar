@@ -16,11 +16,15 @@ resource "google_cloudbuild_trigger" "main_branch_trigger" {
   include_build_logs = "INCLUDE_BUILD_LOGS_WITH_STATUS"
 
   build {
-    images = ["gcr.io/yamitzky/github.com/yamitzky/anonymize-calendar:$COMMIT_SHA"]
+    images = ["${var.registry_url}/app:$COMMIT_SHA"]
 
     step {
       name = "gcr.io/cloud-builders/docker"
-      args = ["build", "-t", "gcr.io/yamitzky/github.com/yamitzky/anonymize-calendar:$COMMIT_SHA", "."]
+      args = ["build", "-t", "${var.registry_url}/app:$COMMIT_SHA", "./app"]
+    }
+
+    artifacts {
+      images = ["${var.registry_url}/app:$COMMIT_SHA"]
     }
   }
 }
