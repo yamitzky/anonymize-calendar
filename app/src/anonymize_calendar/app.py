@@ -3,6 +3,7 @@ from typing import AsyncGenerator
 
 import httpx
 import icalendar
+import pytz
 from fastapi import FastAPI, Response
 
 app = FastAPI()
@@ -34,6 +35,20 @@ def is_older_than(a: datetime.datetime | datetime.date, b: datetime.date) -> boo
     if isinstance(a, datetime.datetime):
         return a.date() < b
     return a < b
+
+
+def is_before_19pm_jst(dt: datetime.datetime) -> bool:
+    """Check if the datetime object is before 19:00 JST.
+
+    Args:
+        dt: datetime object to check.
+
+    Returns:
+        True if the datetime is before 19:00 JST, False otherwise.
+    """
+    japan_tz = pytz.timezone('Asia/Tokyo')
+    dt_jst = dt.astimezone(japan_tz)
+    return dt_jst.hour < 19
 
 
 async def iter_events(url) -> AsyncGenerator[icalendar.Calendar, None]:
@@ -82,6 +97,13 @@ async def calendar(email: str, calendar_id: str):
             continue
         if summary and "作業" in summary:
             continue
+        if summary:
+            if '面談' in summary or '面接' in summary:
+                summary = '会議'
+            elif isinstance(start, datetime.datetime) and is_before_19pm_jst(start):
+                summary = '会議'
+            else:
+                summary = '予定'
 
         cal_event = icalendar.Event()
         cal_event.add("summary", summary)
