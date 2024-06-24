@@ -9,6 +9,8 @@ dependencies = [
     "fastapi>=0.111.0",
     "icalendar>=5.0.12",
     "httpx>=0.27.0",
+    "google-api-python-client>=2.134.0",
+    "google-auth>=2.30.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
