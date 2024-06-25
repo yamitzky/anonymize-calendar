@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar Hash Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        label, input, button {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 5px;
+        }
+        #result, #url {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calendar Hash Generator</h1>
+    <form id="hashForm">
+        <label for="salt">Salt:</label>
+        <input type="text" id="salt" required>
+        
+        <label for="calendarId">Calendar ID:</label>
+        <input type="text" id="calendarId" required>
+        
+        <button type="submit">Generate Hash</button>
+    </form>
+    <div id="result"></div>
+    <div id="url"></div>
+
+    <script>
+        document.getElementById('hashForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const salt = document.getElementById('salt').value;
+            const calendarId = document.getElementById('calendarId').value;
+            
+            const hmac = CryptoJS.HmacSHA256(calendarId, salt);
+            const hash = hmac.toString(CryptoJS.enc.Hex);
+            
+            document.getElementById('result').textContent = `Generated Hash: ${hash}`;
+            document.getElementById('url').textContent = `URL: ${location.origin}/${calendarId}/${hash}`;
+        });
+    </script>
+</body>
+</html>
