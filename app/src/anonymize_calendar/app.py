@@ -20,9 +20,11 @@ app = FastAPI()
 static_dir = os.path.join(os.path.dirname(__file__), "static")
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
-creds = google.auth.load_credentials_from_file(GOOGLE_APPLICATION_CREDENTIALS, SCOPES)[
-    0
-]
+creds = None
+if GOOGLE_APPLICATION_CREDENTIALS:
+    creds = google.auth.load_credentials_from_file(
+        GOOGLE_APPLICATION_CREDENTIALS, SCOPES
+    )[0]
 service = googleapiclient.discovery.build("calendar", "v3", credentials=creds)
 
 

@@ -15,9 +15,14 @@ anyio==4.4.0
     # via httpx
     # via starlette
     # via watchfiles
+cachetools==5.3.3
+    # via google-auth
 certifi==2024.6.2
     # via httpcore
     # via httpx
+    # via requests
+charset-normalizer==3.3.2
+    # via requests
 click==8.1.7
     # via typer
     # via uvicorn
@@ -29,11 +34,27 @@ fastapi==0.111.0
     # via anonymize-calendar
 fastapi-cli==0.0.4
     # via fastapi
+google-api-core==2.19.1
+    # via google-api-python-client
+google-api-python-client==2.134.0
+    # via anonymize-calendar
+google-auth==2.30.0
+    # via anonymize-calendar
+    # via google-api-core
+    # via google-api-python-client
+    # via google-auth-httplib2
+google-auth-httplib2==0.2.0
+    # via google-api-python-client
+googleapis-common-protos==1.63.2
+    # via google-api-core
 h11==0.14.0
     # via httpcore
     # via uvicorn
 httpcore==1.0.5
     # via httpx
+httplib2==0.22.0
+    # via google-api-python-client
+    # via google-auth-httplib2
 httptools==0.6.1
     # via uvicorn
 httpx==0.27.0
@@ -45,6 +66,7 @@ idna==3.7
     # via anyio
     # via email-validator
     # via httpx
+    # via requests
 jinja2==3.1.4
     # via fastapi
 markdown-it-py==3.0.0
@@ -55,12 +77,25 @@ mdurl==0.1.2
     # via markdown-it-py
 orjson==3.10.5
     # via fastapi
+proto-plus==1.24.0
+    # via google-api-core
+protobuf==5.27.1
+    # via google-api-core
+    # via googleapis-common-protos
+    # via proto-plus
+pyasn1==0.6.0
+    # via pyasn1-modules
+    # via rsa
+pyasn1-modules==0.4.0
+    # via google-auth
 pydantic==2.7.4
     # via fastapi
 pydantic-core==2.18.4
     # via pydantic
 pygments==2.18.0
     # via rich
+pyparsing==3.1.2
+    # via httplib2
 python-dateutil==2.9.0.post0
     # via icalendar
 python-dotenv==1.0.1
@@ -71,8 +106,12 @@ pytz==2024.1
     # via icalendar
 pyyaml==6.0.1
     # via uvicorn
+requests==2.32.3
+    # via google-api-core
 rich==13.7.1
     # via typer
+rsa==4.9
+    # via google-auth
 shellingham==1.5.4
     # via typer
 six==1.16.0
@@ -91,6 +130,10 @@ typing-extensions==4.12.2
     # via typer
 ujson==5.10.0
     # via fastapi
+uritemplate==4.1.1
+    # via google-api-python-client
+urllib3==2.2.2
+    # via requests
 uvicorn==0.30.1
     # via fastapi
 uvloop==0.19.0
