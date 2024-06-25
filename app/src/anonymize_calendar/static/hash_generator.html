@@ -51,7 +51,7 @@
             const hash = hmac.toString(CryptoJS.enc.Hex);
             
             document.getElementById('result').textContent = `Generated Hash: ${hash}`;
-            document.getElementById('url').textContent = `URL: ${location.origin}/${calendarId}/${hash}`;
+            document.getElementById('url').textContent = `URL: ${location.origin}/calendar/${calendarId}/${hash}`;
         });
     </script>
 </body>

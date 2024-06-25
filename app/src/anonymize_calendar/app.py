@@ -105,6 +105,7 @@ async def calendar(calendar_id: str, calendar_hash: str):
     cal = icalendar.Calendar()
     cal.add("prodid", f"-//My calendar product//{calendar_id}//")
     cal.add("version", "2.0")
+    cal.add("name", calendar_id)
 
     for event in events:
         start = event["start"].get("dateTime", event["start"].get("date"))
@@ -119,10 +120,10 @@ async def calendar(calendar_id: str, calendar_hash: str):
             continue
         if "面談" in summary or "面接" in summary:
             summary = "会議"
+        elif "移動" in summary or "出社" in summary:
+            summary = "移動"
         elif is_before_19pm_jst(start_dt):
             summary = "会議"
-        elif "移動" in summary:
-            summary = "移動"
         else:
             summary = "予定"
 

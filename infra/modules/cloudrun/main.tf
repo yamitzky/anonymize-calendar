@@ -10,6 +10,16 @@ resource "google_cloud_run_v2_service" "default" {
       ports {
         container_port = 8000
       }
+
+      env {
+        name = "CALENDAR_SALT"
+        value_source {
+          secret_key_ref {
+            secret  = var.calendar_salt_secret
+            version = "latest"
+          }
+        }
+      }
     }
   }
 

@@ -36,3 +36,8 @@ variable "github_connection_id" {
   type        = string
   default     = "github"
 }
+
+variable "calendar_salt_secret" {
+  description = "Secret Manager secret ID for CALENDAR_SALT"
+  type        = string
+}

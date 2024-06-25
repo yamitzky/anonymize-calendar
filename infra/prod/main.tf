@@ -37,6 +37,7 @@ module "cloudbuild" {
 module "cloudrun" {
   source = "../modules/cloudrun"
 
-  service_name = var.service_name
-  region       = var.region
+  service_name         = var.service_name
+  region               = var.region
+  calendar_salt_secret = var.calendar_salt_secret
 }
